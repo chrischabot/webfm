@@ -1,0 +1,11 @@
+WebFM 1.0
+
+    To configure this file manager for all virtual hosts
+    and hide the script from the virual host's document root
+    place fm.php in a dir outside of the document root
+    For example /var/www/fm.php, and the images in /var/www/fmicons
+    then configure Apache aliases to access them as such:
+    	Alias /filemanager "/var/www/fm.php"
+    	Alias /fmicons/ "/var/www/fmicons/"
+    then you can use the file manager on any virtual host thru:
+    	http://localhost/filemanager

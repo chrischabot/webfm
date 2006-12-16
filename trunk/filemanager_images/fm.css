@@ -1,0 +1,112 @@
+HTML        {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-TOP: 0px;
+}
+BODY        { 
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	PADDING-BOTTOM: 0px;
+	MARGIN: 0px;
+	PADDING-TOP: 0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+TD          {
+	font-size: 11px; color: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+A {
+	color: #000000;
+	text-decoration: none;
+}
+A:hover {
+	color: #000000;
+	text-decoration: underline;
+}
+
+img			{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+}
+.button     { 
+	margin: 2px;
+	padding: 1px;
+	border: none;
+	font-size: 10px;
+	color: #000000;
+	background-color: #ffffff;
+	border: 1px #000000 solid;
+}
+.fileheader {
+	background-color: #d6dff7;
+	border-right: #d6dff7 1px solid;
+	border-bottom: #d6dff7 1px solid;
+	height: 18px;
+}
+.fileentry {
+	border-right: #d6dff7 1px solid;
+	border-bottom: #d6dff7 1px solid;
+}	
+.treeview {
+	width: 200px;
+	height: 100%;
+	overflow: auto;
+	border-right: #4c6ed1 4px solid;
+}
+.taskheader {
+    position: relative;
+    height: 32px;
+    background-color: #4c6ed1;
+}
+.taskgradient {
+    position: absolute;
+    right: 0px;
+    width: 129px;
+    height: 32px;
+    background: url('/images/top_gradient.gif') no-repeat;
+    z-index: 0;
+}
+.taskicon {
+    position: relative;
+    float: left;
+    left: 8px;
+    top: 0px;
+    z-index: 1;
+}
+.tasktitle {
+    position: relative;
+    float: left;
+    left: 14px;
+    top: 6px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #d6dff7;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    z-index: 1;
+}
+.taskfooter {
+	width: 100%;
+	height: 32px;
+	padding: 8px;
+    font-weight: bold;
+    font-size: 11px;
+    background-color: #4c6ed1;
+    color: #d6dff7;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.uploadheader {
+	width: 100%;
+	height: 140px;
+	padding: 8px;
+    color: #d6dff7;
+	text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #4c6ed1;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
