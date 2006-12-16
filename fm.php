@@ -94,7 +94,7 @@ function authenticate_header()
 
 function authenticate_get_passwd()
 {
-	global $_SERVER, $passwd_file, $passwd_key, $conf_passwddir;
+	global $passwd_file, $passwd_key, $conf_passwddir;
 	// find passwd file location. Prefered is outside of the document root
 	// so the encrypted passwords cant be downloaded by the file manager
 	// and brute-force cracked. This only works if fm.php is located outside of 
@@ -158,7 +158,7 @@ function authenticate()
 
 function download_file()
 {
-	global $_GET, $conf_chroot;
+	global $conf_chroot;
 	if (!isset($_GET['file']) || $_GET['file'] == '') {
 		return;
 	}
@@ -235,7 +235,7 @@ function recurse_paste_or_delete($file,$dest_dir,$action)
 
 function paste_or_delete($action)
 {
-	global $current_path, $_SESSION, $conf_chroot;
+	global $current_path, $conf_chroot;
 	reset($_SESSION['selected']);
 	while (list(,$file) = each($_SESSION['selected'])) {
 		$real_file = $conf_chroot.$file;
@@ -249,7 +249,7 @@ function paste_or_delete($action)
 
 function make_directory()
 {
-	global $_POST, $_GET, $conf_chroot, $conf_images, $PHP_SELF, $current_path;
+	global $conf_chroot, $conf_images, $current_path;
 	if (!is_dir($conf_chroot.$current_path)) {
 		// Quick check to see if path is a valid location.
 		// Path it self is already filtered in main with format_path()
@@ -274,7 +274,7 @@ function make_directory()
 
 function upload_file()
 {
-	global $_FILES, $_GET, $PHP_SELF, $conf_images, $conf_chroot, $current_path;
+	global $conf_images, $conf_chroot, $current_path;
 	if (!is_dir($conf_chroot.$current_path)) {
 		// Quick check to see if path is a valid location.
 		// Path it self is already filtered in main with format_path()
@@ -321,7 +321,7 @@ function upload_file()
 function draw_files()
 {
 	global $current_path, $conf_chroot, $conf_sort_dirs, $conf_showdirs, $conf_images,
-		   $total_files, $total_size, $total_dirs, $PHP_SELF, $_SESSION;
+		   $total_files, $total_size, $total_dirs;
 	$path        = $conf_chroot."/".$current_path;
 	$total_files = 0;
 	$total_size  = 0;
@@ -481,7 +481,7 @@ function draw_tree()
 
 function recurse_draw_tree($tree, $spacing, $parent)
 {
-	global $PHP_SELF, $conf_images;
+	global $conf_images;
 	$tree_mid      = "<img align=left src=\"$conf_images/tree-mid.gif\" width=16 height=22 vspace=0 hspace=0>";
 	$tree_end      = "<img align=left src=\"$conf_images/tree-end.gif\" width=16 height=22 vspace=0 hspace=0>";
 	$tree_blank    = "<img align=left src=\"$conf_images/tree-blank.gif\" width=16 height=22 vspace=0 hspace=0>";
@@ -679,7 +679,7 @@ function draw_header()
 <html>
 <head>
 <LINK href="<? echo $conf_images; ?>/fm.css" rel=stylesheet>
-<title>Chris Chabot - File Manager Testcase 0.1</title>
+<title>WebFM 0.1</title>
 </head>
 <body>
 <table cellspacing=0 cellpadding=0 width="100%" height="100%">
