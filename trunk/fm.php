@@ -1,6 +1,6 @@
 <?
 /*
-WebFM - Web File Manager 0.1 
+WebFM - Web File Manager 0.2
 Copyright (C) 2005-2006, Chris Chabot
 
 This program is free software; you can redistribute it and/or
@@ -679,7 +679,7 @@ function draw_header()
 <html>
 <head>
 <LINK href="<? echo $conf_images; ?>/fm.css" rel=stylesheet>
-<title>WebFM 0.1</title>
+<title>WebFM 0.2</title>
 </head>
 <body>
 <table cellspacing=0 cellpadding=0 width="100%" height="100%">
