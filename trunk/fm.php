@@ -53,7 +53,7 @@ header("Cache-Control: no-store");
 
 function change_passwd()
 {
-	global $conf_images, $PHP_SELF,$_POST, $passwd_key, $passwd, $passwd_file;
+	global $conf_images, $passwd_key, $passwd, $passwd_file;
 	if (isset($_POST['newpass'])) {
 		$passwd[$passwd_key] = crypt($_POST['newpass'],'$fm');
 		$output = "<?\n\$passwd = array(\n";
@@ -75,7 +75,7 @@ function change_passwd()
 		return;
 	} else {
 		echo "<html><head><LINK href=\"$conf_images/fm.css\" rel=stylesheet></head><body>\n".
-			 "<form action=\"$PHP_SELF?event=passwd\" method=\"post\">".
+			 "<form action=\"{$_SERVER['PHP_SELF']}?event=passwd\" method=\"post\">".
 	 		 "<div class=uploadheader><br>Change Password<br><br>".
 	 		 "<input type=\"text\" name=\"newpass\" size=32><br><br>".
 	 		 "<input type=\"submit\" value=\"Save\"> <input type=button value=\"Cancel\" onClick=\"window.close();\"><br>".
@@ -139,12 +139,12 @@ function authenticate_check_file($file)
 
 function authenticate()
 {
-	global $passwd_file, $passwd_key, $passwd, $PHP_AUTH_PW, $_SERVER;
+	global $passwd_file, $passwd_key, $passwd;
 	authenticate_get_passwd();
 	include_once($passwd_file);
-	if (isset($PHP_AUTH_PW)) {
+	if (isset($_SERVER['PHP_AUTH_PW'])) {
 		if (isset($passwd[$passwd_key])) {
-			if ($passwd[$passwd_key] == crypt($PHP_AUTH_PW,'$fm')) {
+			if ($passwd[$passwd_key] == crypt($_SERVER['PHP_AUTH_PW'],'$fm')) {
 				return true;
 			}
 		} else {
@@ -263,7 +263,7 @@ function make_directory()
 		echo "<script>this.opener.location=this.opener.location; window.close();</script>";
 	} else {
 		echo "<html><head><LINK href=\"$conf_images/fm.css\" rel=stylesheet></head><body>\n".
-			 "<form action=\"$PHP_SELF?event=mkdir&path=$current_path\" method=\"post\">".
+			 "<form action=\"{$_SERVER['PHP_SELF']}?event=mkdir&path=$current_path\" method=\"post\">".
 		 	"<div class=uploadheader><br>Create Directory<br><br>".
 		 	"<input type=\"text\" name=\"dir\" size=32><br><br>".
 		 	"<input type=\"submit\" value=\"Create\"> <input type=button value=\"Cancel\" onClick=\"window.close();\"><br>".
@@ -282,7 +282,7 @@ function upload_file()
 	}
 	if (count($_FILES) == 0) {
 		echo "<html><head><LINK href=\"$conf_images/fm.css\" rel=stylesheet></head><body>\n".
-			 "<form action=\"$PHP_SELF?event=upload&path=$current_path\" method=\"post\" ENCTYPE=\"multipart/form-data\">".
+			 "<form action=\"{$_SERVER['PHP_SELF']}?event=upload&path=$current_path\" method=\"post\" ENCTYPE=\"multipart/form-data\">".
 			 "<div class=uploadheader><br>Select File to Upload<br><br>".
 			 "<input type=\"file\" name=\"userfile\" size=32><br><br>".
 			 "<input type=\"submit\" value=\"Upload\"> <input type=button value=\"Cancel\" onClick=\"window.close();\"><br>".
@@ -328,7 +328,7 @@ function draw_files()
 	echo "<td width=100% height=100% align=left valign=top>\n".
 		 "<div style=\"width: 100%; height: 100%; overflow: auto;\">\n".
 		 "<table cellspacing=0 cellpadding=0 height=100% width=100%>\n".
-		 "<form name=\"selectform\" method=\"post\" action=\"$PHP_SELF?path=$current_path\">\n".
+		 "<form name=\"selectform\" method=\"post\" action=\"{$_SERVER['PHP_SELF']}?path=$current_path\">\n".
 		 "<input type=\"hidden\" name=\"action\" value=\"\">\n".
 		 "<tr>\n".
 		 "<td class=fileheader><b>File Name</b></td>\n".
@@ -383,12 +383,12 @@ function draw_files()
 				$tmp = substr($current_path,0,strlen($current_path)-1);
 				$tmp = substr($tmp,0,strrpos($tmp,'/'));
 				if ($tmp != '') {
-					$link = $PHP_SELF."?path=$tmp";
+					$link = $_SERVER['PHP_SELF']."?path=$tmp";
 				} else {
-					$link = $PHP_SELF;
+					$link = $_SERVER['PHP_SELF'];
 				}
 			} else {
-				$link = $PHP_SELF."?path=$current_path{$file['name']}";
+				$link = $_SERVER['PHP_SELF']."?path=$current_path{$file['name']}";
 			}
 			if ($file['name'] == '..') {
 				$icon = 'folder-up.gif';
@@ -440,7 +440,7 @@ function draw_files()
 			 "<td class=fileentry nowrap>{$file['owner']}</td>\n".
 			 "<td class=fileentry nowrap>{$file['group']}</td>\n".
 			 "<td class=fileentry nowrap>{$file['perm']}</td>\n".
-		 	 "<td class=fileentry align=center><a href=\"$PHP_SELF?file=$current_path{$file['name']}&event=download\" alt=\"Download this file\"><img src=\"$conf_images/save.gif\" width=16 height=16></a></td>\n".
+		 	 "<td class=fileentry align=center><a href=\"{$_SERVER['PHP_SELF']}?file=$current_path{$file['name']}&event=download\" alt=\"Download this file\"><img src=\"$conf_images/save.gif\" width=16 height=16></a></td>\n".
 			 "<td class=fileentry><input type=checkbox name=selected[] value=\"$current_path{$file['name']}\"></td>\n".
 			 "</tr>\n";
 	}
@@ -454,9 +454,9 @@ function draw_files()
 		 "<input class=button type=\"button\" value=\"Copy File(s)\" onClick=\"document.selectform.action.value='copy'; document.selectform.submit();\">".
 		 "<input class=button type=\"button\" value=\"Paste File(s)\" onClick=\"document.selectform.action.value='paste'; document.selectform.submit();\" $disabled>".
 		 "<input class=button type=\"button\" value=\"Delete File(s)\" onClick=\"if (confirm('Delete file(s)?')) { document.selectform.action.value='delete'; document.selectform.submit(); }\">".
-		 "<input class=button type=\"button\" value=\"Create Dir\" onClick=\"window.open('$PHP_SELF?event=mkdir&path=$current_path','win_create','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
-		 "<input class=button type=\"button\" value=\"Upload File\" onClick=\"window.open('$PHP_SELF?event=upload&path=$current_path','win_upload','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
-		 "<input class=button type=\"button\" value=\"Change Passwd\" onClick=\"window.open('$PHP_SELF?event=passwd','win_passwd','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
+		 "<input class=button type=\"button\" value=\"Create Dir\" onClick=\"window.open('{$_SERVER['PHP_SELF']}?event=mkdir&path=$current_path','win_create','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
+		 "<input class=button type=\"button\" value=\"Upload File\" onClick=\"window.open('{$_SERVER['PHP_SELF']}?event=upload&path=$current_path','win_upload','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
+		 "<input class=button type=\"button\" value=\"Change Passwd\" onClick=\"window.open('{$_SERVER['PHP_SELF']}?event=passwd','win_passwd','width=320,height=140,fullscreen=no,scrollbars=no,resizable=no,status=no,toolbar=no,menubar=no,location=no')\">".
 		 "<br>&nbsp;</p></td></tr>\n".
 		 "</form>\n".
 	 	 "</table>\n".
@@ -490,7 +490,7 @@ function recurse_draw_tree($tree, $spacing, $parent)
 	$folder_closed = "<img align=left src=\"$conf_images/tree-folder-closed.gif\" width=24 height=22 vspace=0 hspace=0>";
 	if ($parent == '') {
 		// top level, draw /
-		echo "<tr><td height=22 align=left><a href=\"$PHP_SELF?path=/\">$folder_open/</a></td></tr>\n";
+		echo "<tr><td height=22 align=left><a href=\"{$_SERVER['PHP_SELF']}?path=/\">$folder_open/</a></td></tr>\n";
 	}
 	$count = count($tree);
 	$i     = 0;
@@ -508,7 +508,7 @@ function recurse_draw_tree($tree, $spacing, $parent)
 			$result .= $folder_closed;
 		}
 		$result .= $dir;
-		echo "<tr><td height=22 align=left><a href=\"$PHP_SELF?path=$parent/$dir\">$result</a></td></tr>\n";
+		echo "<tr><td height=22 align=left><a href=\"{$_SERVER['PHP_SELF']}?path=$parent/$dir\">$result</a></td></tr>\n";
 		if ($subs !== FALSE) {
 			if ($i == $count-1) {
 				$sp = $tree_blank;
